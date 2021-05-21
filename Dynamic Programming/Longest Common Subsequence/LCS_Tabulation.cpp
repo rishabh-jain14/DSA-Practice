@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <cstring>
 #include <conio.h>
 
@@ -7,7 +8,28 @@
 using namespace std;
 
 int T[101][101];
+vector<char> res;
 
+void reconstruct(string s1, string s2, int i, int j)
+{
+    if(i == -1 || j== -1)
+    {
+        return;
+    }
+    else if(s1[i-1] == s2[j-1])
+    {
+        reconstruct(s1, s2, i-1, j-1);
+        res.push_back(s1[i]);
+    }
+    else if(T[i][j] == T[i-1][j])
+    {
+        reconstruct(s1, s2, i-1, j);
+    }
+    else
+    {
+        reconstruct(s1, s2, i, j-1);
+    }
+}
 // int find_lcs(string s1, string s2, int n1, int n2)
 // {
 //     if(n1 == 0 || n2 == 0)
@@ -55,7 +77,12 @@ int main()
             }
         }
     }
-    cout<<T[n1][n2];
+    cout<<T[n1][n2]<<'\n';
+    reconstruct(s1, s2, n1, n2);
+    for(i = 0; i<res.size(); i++)
+    {
+        cout<<res[i];
+    }
     getch();
     return 0;
 }
